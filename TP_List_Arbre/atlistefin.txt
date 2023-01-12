@@ -1,0 +1,125 @@
+
+public class AtListe extends AssoTable {
+
+
+	
+	Element debut;
+	Element fin ;
+	
+	public AtListe() {
+		this.debut=null;
+		this.fin = null;
+		
+	}
+	/*public Boolean estvide() {
+		return debut==null;
+	}*/
+	
+	// FONCTION ASSOCIE
+	
+	
+ 
+	@Override 
+	public void associe(String cle, String valeur) {
+		 Paire paire = new Paire (cle,valeur);
+		 Element nouv =new  Element(paire,null);
+		 if(debut==null) {
+			// si la liste est vide alors l'élément est ajouter en debut de liste 
+			 debut=nouv;
+			 fin=nouv;}
+		 else {
+			 /*si la liste est non vide
+			 on vérifie d'abord si la clé de la paire est contenue dans la liste .si oui on la remplace et la boucle s'arrete 
+			 si non ..... */
+			 boolean trouve= false;
+			 Element courant = debut;
+			 while (! trouve && courant != null) {// tanqu'on est pas en fin de liste et la cle de la paire 
+			 if (courant.paire.getCle().equals(cle)  ) {
+				 trouve= true;
+				 courant.paire=nouv.paire;
+				 courant=nouv; }else {
+				 courant=courant.pairesuiv; // on passe à l'element suivant
+				 }
+			 }
+			 if(courant==null) {// on a parcourire toute la liste et la clé n'existe pas alors on l'element en fin de liste
+				 fin.pairesuiv=nouv;
+				 fin=nouv;
+			 }
+		 }
+	}
+		 
+		 
+//FONCTION SUPPRIMER
+	@Override 
+	public void supprime(String cle) {
+		Element courant = debut;
+		 if(debut==null) {
+				// si la liste est vide alors l'élément est ajouter en debut de liste 
+			      System.out.println("la liste est vide");
+				 }
+			 else {
+				 //si la liste est non vide
+				 if(debut==fin) {
+					 // si la liste contient un seul élément
+					 if(debut.paire.getCle().equals(cle)) {debut=fin=null; }
+				}
+				 else {
+						// liste à plusieurs éléments
+						
+						if (debut.paire.getCle().equals(cle)) {
+							// premier doit être supprimé
+							debut = debut.pairesuiv;
+						} else {
+							while (courant.pairesuiv!=null && !courant.pairesuiv.paire.getCle().equals(cle))
+								courant = courant.pairesuiv;
+							
+							if (courant.pairesuiv!= null) {
+								// Si on a trouvé l'élément à supprimer dans la liste
+								if (fin == courant.pairesuiv)
+									fin = courant;
+								
+								courant.pairesuiv = courant.pairesuiv.pairesuiv;
+							}
+						}
+
+					}	
+						
+					}
+					 }
+	// fonction get		 
+	@Override 
+	public String get(String cle){
+		String valeur="";
+		Element courant = debut;
+		
+		while(courant!=null) {
+			if(courant.paire.getCle().equals(cle)) {
+				valeur = courant.paire.getValeur();
+				return valeur;
+			}
+			courant = courant.pairesuiv;
+			}
+		
+		return " cle introuvable";
+		
+	}}
+		/*String valeur="";
+		Element courant = debut;
+		while(courant!=null) {
+			if(courant.paire.getCle().equals(cle)) {
+				valeur = courant.paire.getValeur();
+				return valeur;
+			}else {
+					courant=courant.pairesuiv;}
+			}
+		return valeur;*/
+		
+		
+		
+	
+
+	
+
+
+
+

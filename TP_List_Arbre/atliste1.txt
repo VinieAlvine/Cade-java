@@ -1,0 +1,107 @@
+
+public class AtListe extends AssoTable {
+
+
+	
+	Element debut;
+	Element fin ;
+	
+	public AtListe() {
+		this.debut=null;
+		this.fin = null;
+		
+	}
+	/*public Boolean estvide() {
+		return debut==null;
+	}*/
+	
+	// FONCTION ASSOCIE
+	
+	
+ 
+	@Override 
+	public void associe(String cle, String valeur) {
+		
+		
+ 		 
+ 		
+		 Paire paire = new Paire (cle,valeur);
+		 Element nouv =new  Element(paire,null);
+		 if(debut==null) {
+			 debut=nouv;
+			 fin=nouv;}
+		 else {
+			 boolean trouve= false;
+			 Element courant = debut;
+			 while (! trouve && courant != null) {
+			 if (courant.paire.getCle() == cle ) {
+				 trouve= true;
+				 courant.paire=nouv.paire;
+				 courant=nouv;
+			
+			 }else {
+				 courant=courant.pairesuiv;
+			 }
+			 }
+			 if(courant==null) {
+				 fin.pairesuiv=nouv;
+				 fin=nouv;
+			 }
+		 }
+		 
+	
+	
+	}
+		 
+		 
+			/*	while(courant!=null ) { 
+					if(courant.paire.getCle().equals(cle)==true && ok !=true ) {
+						if(courant.pairesuiv!=null ) {
+						
+						courant.paire=paire;
+						ok=true;
+						
+						
+						}else {
+							courant=nouv;
+							fin=nouv;
+							ok=true;
+						}
+					}
+					
+					
+					courant=courant.pairesuiv;
+				}
+				if(courant==null   ) {
+				// file est non vide: on ajoute après le dernier élément
+				fin.pairesuiv = nouv;
+				fin = nouv;
+			}}*/
+				 
+				 
+				 
+					
+				 
+		
+		
+		
+			
+		
+		
+		
+		
+	
+	//FONCTION SUPPRIMER
+	@Override 
+	public void supprime(String cle) {};
+	@Override 
+	public String get(String cle){
+		
+		return "";
+	}
+
+	
+
+}
+
+

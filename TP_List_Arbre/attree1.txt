@@ -1,0 +1,127 @@
+
+public class ATTree extends AssoTable{
+private Noeud racine;
+	
+	public String toString() {
+		return toStringRec(racine, " ") ;
+	}
+	
+	private String toStringRec(Noeud courant, String prefixe) {
+		if (courant != null) {
+			String result = " ";
+			
+			result += prefixe + courant.couple +"\n";
+			result += toStringRec(courant.filsGauche, prefixe + "   ") ;
+			result += toStringRec(courant.filsDroit, prefixe + "   ") ;
+			
+			
+			return result;
+		} else
+			return " "; 
+	}
+		
+	@Override
+	public void associe(String cle, String valeur) {
+	
+		racine = associeN(racine, cle,  valeur);
+	}
+	// foction   qui ajoute les noeuds
+		private Noeud  associeN(Noeud cible, String cle, String valeur) {
+			Paire coup=new Paire(cle,valeur);
+			if (cible == null) {
+				return new Noeud(coup);
+			} else  {
+				
+					if(cible.couple.getCle().compareTo(cle)<0) {
+						cible.filsDroit = associeN(cible.filsDroit,cle, valeur);
+						}
+					else  if(cible.couple.getCle().compareTo(cle)>0) {
+							cible.filsGauche = associeN(cible.filsGauche,cle, valeur);}
+					else {
+						cible.couple.setValeur(valeur);
+						return cible;}
+					
+				}
+			 
+			return cible;
+		}
+			
+	@Override
+	public void supprime(String cle) {
+		// TODO Auto-generated method stub
+		racine = supprimeRec(racine, cle);
+	}
+	
+	private Noeud supprimeRec(Noeud courant, String cle) {
+		if (courant == null) {
+			return null;
+		} else {
+			
+			if (courant.couple.getCle().compareTo(cle)< 0){
+				courant.filsDroit = supprimeRec(courant.filsDroit, cle);
+			}
+			else {
+				if (courant.couple.getCle().compareTo(cle) > 0) {
+					courant.filsGauche = supprimeRec(courant.filsGauche, cle);
+				}
+				else {
+					if (courant.filsDroit == null && courant.filsGauche == null) {return null;}
+					else if (courant.filsDroit == null) { return courant.filsGauche;} 
+					
+					else if (courant.filsGauche == null) { return courant.filsDroit;}
+				
+					else {
+						if (((int) (Math.random() * 2)) != 0) {
+							Noeud minimum = minimum(courant.filsDroit);
+							courant.couple = minimum.couple;
+							courant.filsDroit = supprimeRec(courant.filsDroit, minimum.couple.getCle());
+						}
+						else {
+							Noeud maximum = maximum(courant.filsGauche);
+							courant.couple = maximum.couple;
+							courant.filsGauche = supprimeRec(courant.filsGauche, maximum.couple.getCle());
+						}
+					}
+				}
+				
+			}
+		}
+		return courant;
+	}
+	
+	private Noeud maximum(Noeud courant) {
+		
+		if (courant.filsDroit == null) {
+			return courant;
+		}
+		else {
+			return maximum(courant.filsDroit);
+		}
+	}
+	
+	private Noeud minimum(Noeud courant) {
+		
+		if (courant.filsGauche == null) {
+			return courant;
+		}
+		else {
+			return minimum(courant.filsGauche);
+		}
+	}
+
+	@Override
+	public String get(String valeur) {
+		return getRec(valeur, racine);
+	}
+	
+	private String getRec(String valeur, Noeud courant) {
+		if (courant == null) 
+			return null;
+		else if (courant.couple.getCle().equals(valeur))
+			return  courant.couple.getValeur(); 
+		else if (courant.couple.getCle().compareTo(valeur) <0) 
+			return getRec(valeur, courant.filsDroit);
+		else
+			return getRec(valeur, courant.filsGauche); 
+	}
+}
